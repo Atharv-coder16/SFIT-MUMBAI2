@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TextRevealCardPreview } from './ui/TextRevealCard';
-import TubesCursor from 'threejs-components/build/cursors/tubes1.min.js';
 
 /* ═══════════════════════════════════════════
    LANDING HERO — TextRevealCard + Tubes Cursor + Neural Net
@@ -147,58 +146,27 @@ function NeuralBackground() {
   );
 }
 
-// ── Interactive Tubes 3D Cursor Background ──
-function TubesBackground() {
-  const canvasRef = useRef(null);
-  const appRef = useRef(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    // Guard: prevent double-init from React StrictMode
-    if (appRef.current) return;
-
-    appRef.current = TubesCursor(canvas, {
-      tubes: {
-        colors: ["#00d4ff", "#6366F1", "#f967fb"],
-        lights: {
-          intensity: 200,
-          colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
-        }
-      }
-    });
-
-    return () => {
-      if (appRef.current && appRef.current.destroy) {
-        appRef.current.destroy();
-        appRef.current = null;
-      }
-    };
-  }, []);
-
-  return (
-    <canvas
-      id="canvas"
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        overflow: 'hidden',
-        zIndex: 0, // Base layer
-      }}
-    />
-  );
-}
 
 export default function LandingHero({ onEnterDashboard }) {
+
   return (
     <>
+      {/* Premium ambient light blue/white glow */}
+      <div style={{
+        position: 'fixed',
+        top: '10%',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        width: '120vw',
+        height: '80vh',
+        background: 'radial-gradient(circle at center, rgba(0, 212, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 70%)',
+        filter: 'blur(100px)',
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
       {/* Canvas layers — fixed behind everything */}
-      <TubesBackground />
       <NeuralBackground />
 
       {/* Hero content */}
@@ -216,12 +184,21 @@ export default function LandingHero({ onEnterDashboard }) {
           pointerEvents: 'none',
         }}
       >
-        {/* Large Praeventix Background Logo Watermark / Title */}
-        <div className="watermark-logo">
+        {/* Static Background Watermark Logo */}
+        <div 
+          className="watermark-logo"
+          style={{
+            position: 'absolute',
+            top: '40px',
+            opacity: 0.05,
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        >
           Praeven<span className="cyan-text">tix</span>
         </div>
 
-        {/* Visible prominent logo */}
+        {/* Premium Prominent Logo */}
         <div style={{
           display: 'flex', 
           alignItems: 'center', 
@@ -229,13 +206,14 @@ export default function LandingHero({ onEnterDashboard }) {
           pointerEvents: 'auto',
           marginBottom: 20
         }}>
-          <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#00d4ff', boxShadow: '0 0 20px #00d4ff' }}></div>
-          <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 36, color: '#fff' }}>
-            Praeven<span style={{ color: '#00d4ff', textShadow: '0 0 28px rgba(0,212,255,0.5)' }}>tix</span>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', background: 'var(--accent-cyan)', boxShadow: '0 0 20px var(--accent-cyan)' }}></div>
+          <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 36, color: 'var(--text-primary)' }}>
+            Praeven<span style={{ color: 'var(--accent-cyan)', textShadow: '0 0 28px rgba(0,212,255,0.5)' }}>tix</span>
           </span>
         </div>
+
         {/* Card wrapper — re-enable pointer events for interactivity */}
-        <div style={{ pointerEvents: 'auto', width: '100%', maxWidth: 800 }}>
+        <div style={{ pointerEvents: 'auto', width: '100%', maxWidth: 800, marginTop: '20px' }}>
           <TextRevealCardPreview />
         </div>
 
