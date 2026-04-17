@@ -1,0 +1,47 @@
+# Node and Frontend
+node_modules/
+dist/
+build/
+.npm/
+
+# Environment Variables
+.env
+.env.local
+.env.*
+
+# Python and Backend
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env_python/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Datasets and Large ML Models (Fixes memory & Github LFS push errors)
+*.csv
+*.pt
+*.bin
+*.pkl
+*.h5
+*.onnx
+*.npy
+
+# SQLite databases (generated cache data)
+*.db
+*.db-shm
+*.db-wal
+
+# Large generated data files
+backend/data/scored_customers.json
+
+# Temporary/Nested directories
+temp_sfit_repo/
+
+# OS and Editor Configs
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
